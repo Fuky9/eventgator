@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-dnn-0&sf*@491u=hzvv3==v!=%oxaltvym54g-+(w%$+wdsr5m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["2fn-persevering-geiger.circumeo-apps.net"]
+ALLOWED_HOSTS = ["2fn-persevering-geiger.circumeo-apps.net", '127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ["https://2fn-persevering-geiger.circumeo-apps.net"]
 
 # Application definition
@@ -77,13 +77,13 @@ WSGI_APPLICATION = "django_project.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ["POSTGRES_DB"],
-        "USER": os.environ["POSTGRES_USER"],
-        "PASSWORD": os.environ["POSTGRES_PASSWORD"],
-        "HOST": os.environ["POSTGRES_HOST"],
-        "PORT": os.environ["POSTGRES_PORT"],
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'blog_db',
+        'HOST' : '127.0.0.1',
+        'PORT' : '3306',
+        'USER' : 'root',
+        'PASSWORD' : 'root',
     }
 }
 
