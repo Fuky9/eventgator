@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Event
+from .models import Event, Comment
 
 
 class UserCreationFormWithName(UserCreationForm):
@@ -21,7 +21,7 @@ class UserCreationFormWithName(UserCreationForm):
             user.save()
         return user
 
-      
+
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
@@ -44,3 +44,9 @@ class EventForm(forms.ModelForm):
         if len(description) < 10:
             raise forms.ValidationError("The description is too short. Please provide more details.")
         return description
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ["content"]

@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
-from core.models import Event, UserEventRegistration
-from core.forms import EventForm
+from core.models import Event, UserEventRegistration, Comment
+from core.forms import EventForm, CommentForm
 
 
 def search_view(request):
@@ -23,18 +23,26 @@ def search_view(request):
 def event_view(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     user = request.user
-    
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.event = event
+            new_comment.author = user
+            new_comment.save()
+
     # try:
     #     event = Event.objects.get(pk=event_id)
     # except Event.DoesNotExist:
     #     raise Http404("Event does not exist")
-        
+
     registration = UserEventRegistration.objects.filter(user=user, event=event).first()
     return render(
         request, "core/event.html", {"event": event, "registration": registration}
     )
 
-    
+
 @login_required
 def event_create_view(request):
     if request.method == "POST":

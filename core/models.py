@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class Event(models.Model):
@@ -17,3 +18,14 @@ class UserEventRegistration(models.Model):
 
     class Meta:
         unique_together = ('user', 'event')
+
+
+class Comment(models.Model):
+    content = models.TextField()
+    created_at = models.DateTimeField(default=timezone.now, db_index=True)
+    # With related name "comments" it is possible to call all user comments with User.comments.all
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="comments")
+
+    class Meta:
+        ordering = ["created_at"]
